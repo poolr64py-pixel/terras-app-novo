@@ -1,12 +1,23 @@
-# React + Vite
+# Sistema de Imóveis Paraguay
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema completo para venda de terras no Paraguay com:
 
-Currently, two official plugins are available:
+- Interface responsiva com menu hambúrguer
+- Sistema multilíngue (4 idiomas)
+- Catálogo de propriedades com filtros
+- Dashboard CRM
+- Integração WhatsApp
+- Deploy automático com GitHub Actions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologias
 
-## Expanding the ESLint configuration
+- React 18
+- TypeScript
+- Tailwind CSS
+- Vite
+- GitHub Actions
+- Netlify
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Deploy
+
+O sistema é automaticamente deployed no Netlify a cada push para a branch main.
