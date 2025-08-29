@@ -1,0 +1,64 @@
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AppProvider } from './contexts/AppProvider';
+import LoadingSpinner from './components/UI/LoadingSpinner';
+
+// Lazy loading das páginas
+const Footer = React.lazy(() => import('./components/Layout/Footer'));
+const Header = React.lazy(() => import('./components/Layout/Header'));
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const PropertiesPage = React.lazy(() => import('./pages/PropertiesPage'));
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const CRMPage = React.lazy(() => import('./pages/CRMPage'));
+const WhatsAppButton = React.lazy(() => import('./components/UI/WhatsAppButton'));
+
+function App() {
+  return (
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/crm" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CRMPage />
+            </Suspense>
+          } />
+          <Route path="/*" element={<MainApp />} />
+        </Routes>
+      </Router>
+    </AppProvider>
+  );
+}
+
+function MainApp() {
+  return (
+    <div style={{ width: '100vw', minHeight: '100vh', margin: 0, padding: 0, display: 'flex', flexDirection: 'column' }}>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Header />
+      </Suspense>
+      
+      <main style={{ flex: 1 }}>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/properties" element={<PropertiesPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </Suspense>
+      </main>
+
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <WhatsAppButton />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
