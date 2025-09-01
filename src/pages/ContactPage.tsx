@@ -1,4 +1,5 @@
 // src/pages/ContactPage.tsx
+import SEO from '../components/UI/SEO';
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useProperties } from '../contexts/PropertiesContext';
@@ -8,6 +9,12 @@ const ContactPage: React.FC = () => {
   const { sendWhatsApp, whatsappNumber } = useProperties();
 
   return (
+        <>
+    <SEO 
+      title={t('getInTouch')}
+      description="Entre em contato conosco para investir em terras no Paraguay. WhatsApp, email e localização em Asunción"
+      keywords="contato imóveis paraguay, whatsapp investimento paraguay, escritório asunción"
+    />
     <div style={{
       paddingTop: '100px',
       minHeight: '100vh',
@@ -183,6 +190,7 @@ const ContactPage: React.FC = () => {
         </div>
       </div>
     </div>
+</>
   );
 };
 

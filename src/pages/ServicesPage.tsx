@@ -1,4 +1,5 @@
 // src/pages/ServicesPage.tsx
+import SEO from '../components/UI/SEO';
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useProperties } from '../contexts/PropertiesContext';
@@ -26,6 +27,12 @@ const ServicesPage: React.FC = () => {
   ];
 
   return (
+    <>
+    <SEO 
+      title={t('ourServices')}
+      description="Serviços especializados em investimentos imobiliários no Paraguay - consultoria, documentação legal e assessoria técnica"
+      keywords="serviços imobiliários paraguay, consultoria investimento paraguay, documentação legal propriedades"
+    />
     <div style={{
       paddingTop: '100px',
       minHeight: '100vh',
@@ -107,8 +114,9 @@ const ServicesPage: React.FC = () => {
             </div>
           ))}
         </div>
-      </div>
+     </div>
     </div>
+</>
   );
 };
 

@@ -1,5 +1,5 @@
 // src/contexts/PropertiesContext.tsx
-import React, { createContext, useContext, useState, useMemo, useCallback, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useMemo, useCallback, ReactNode, useEffect } from 'react';
 
 export interface Property {
   id: number;
@@ -27,6 +27,9 @@ interface PropertiesContextType {
   setFilters: (filters: Filters) => void;
   sendWhatsApp: (message: string) => void;
   whatsappNumber: string;
+  addProperty: (property: Property) => void;
+  removeProperty: (id: number) => void;
+  updateProperty: (id: number, updates: Partial<Property>) => void;
 }
 
 const PropertiesContext = createContext<PropertiesContextType | undefined>(undefined);
@@ -50,10 +53,57 @@ export const PropertiesProvider: React.FC<PropertiesProviderProps> = ({ children
     priceRange: ''
   });
 
+  const [customProperties, setCustomProperties] = useState<Property[]>([]);
+
   const whatsappNumber = '+595994718400';
 
-  // Dados das propriedades
-  const properties: Property[] = useMemo(() => [
+  // Carregar propriedades customizadas do localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('customProperties');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCustomProperties(parsed);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar propriedades salvas:', error);
+    }
+  }, []);
+
+  // Função para adicionar propriedade
+  const addProperty = useCallback((newProperty: Property) => {
+    setCustomProperties(prev => {
+      const updated = [...prev, newProperty];
+      localStorage.setItem('customProperties', JSON.stringify(updated));
+      return updated;
+    });
+    console.log('Propriedade adicionada:', newProperty);
+  }, []);
+
+  // Função para remover propriedade
+  const removeProperty = useCallback((id: number) => {
+    setCustomProperties(prev => {
+      const updated = prev.filter(prop => prop.id !== id);
+      localStorage.setItem('customProperties', JSON.stringify(updated));
+      return updated;
+    });
+    console.log('Propriedade removida:', id);
+  }, []);
+
+  // Função para atualizar propriedade
+  const updateProperty = useCallback((id: number, updates: Partial<Property>) => {
+    setCustomProperties(prev => {
+      const updated = prev.map(prop => 
+        prop.id === id ? { ...prop, ...updates } : prop
+      );
+      localStorage.setItem('customProperties', JSON.stringify(updated));
+      return updated;
+    });
+    console.log('Propriedade atualizada:', id, updates);
+  }, []);
+
+  // Dados das propriedades pré-definidas
+  const defaultProperties: Property[] = useMemo(() => [
     {
       id: 1,
       title: 'Fazenda Para Soja - Alto Paraná',
@@ -152,9 +202,14 @@ export const PropertiesProvider: React.FC<PropertiesProviderProps> = ({ children
     }
   ], []);
 
+  // Combinar propriedades padrão com customizadas
+  const allProperties = useMemo(() => {
+    return [...defaultProperties, ...customProperties];
+  }, [defaultProperties, customProperties]);
+
   // Propriedades filtradas
   const filteredProperties = useMemo(() => {
-    return properties.filter(property => {
+    return allProperties.filter(property => {
       // Filtro por localização
       if (filters.location && !property.location.toLowerCase().includes(filters.location.toLowerCase())) {
         return false;
@@ -174,7 +229,7 @@ export const PropertiesProvider: React.FC<PropertiesProviderProps> = ({ children
 
       return true;
     });
-  }, [properties, filters]);
+  }, [allProperties, filters]);
 
   // Função para enviar WhatsApp
   const sendWhatsApp = useCallback((message: string) => {
@@ -184,12 +239,15 @@ export const PropertiesProvider: React.FC<PropertiesProviderProps> = ({ children
 
   return (
     <PropertiesContext.Provider value={{
-      properties,
+      properties: allProperties,
       filteredProperties,
       filters,
       setFilters,
       sendWhatsApp,
-      whatsappNumber
+      whatsappNumber,
+      addProperty,
+      removeProperty,
+      updateProperty
     }}>
       {children}
     </PropertiesContext.Provider>

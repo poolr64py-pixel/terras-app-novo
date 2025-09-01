@@ -1,4 +1,5 @@
 // src/pages/AboutPage.tsx
+import SEO from '../components/UI/SEO';
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useProperties } from '../contexts/PropertiesContext';
@@ -8,6 +9,12 @@ const AboutPage: React.FC = () => {
   const { sendWhatsApp } = useProperties();
 
   return (
+      <>
+    <SEO 
+      title={t('aboutUs')}
+      description="15 anos de experiência no mercado imobiliário paraguaio, especialistas em investimentos em terras rurais"
+      keywords="empresa imobiliária paraguay, experiência mercado paraguaio, investimento terras rurais"
+    />
     <div style={{
       paddingTop: '100px',
       minHeight: '100vh',
@@ -127,6 +134,7 @@ const AboutPage: React.FC = () => {
         </div>
       </div>
     </div>
+   </>
   );
 };
 

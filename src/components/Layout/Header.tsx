@@ -10,13 +10,13 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 1023px)');
 
-  const navItems = [
-    { path: '/', key: 'home', label: t('home') },
-    { path: '/properties', key: 'properties', label: t('properties') },
-    { path: '/services', key: 'services', label: t('services') },
-    { path: '/about', key: 'about', label: t('about') },
-    { path: '/contact', key: 'contact', label: t('contact') }
-  ];
+ const navItems = [
+  { path: '/', key: 'home', label: t('home') },
+  { path: '/properties', key: 'properties', label: t('properties') },
+  { path: '/services', key: 'services', label: t('services') },
+  { path: '/about', key: 'about', label: t('about') },
+  { path: '/contact', key: 'contact', label: t('contact') }
+];
 
   const isActive = (path: string) => location.pathname === path;
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
